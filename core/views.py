@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identi
 from .models import User, Todo
 from .parser import login_data, todo_data
 from .serializer import todo_resource
+import datetime
 
 
 class Login(Resource):
@@ -31,7 +32,8 @@ class VTodo(Resource):
         req = todo_data.parse_args()
         todo_item = Todo(
             content = req['content'],
-            user_id = cur_user.id
+            user_id = cur_user.id,
+            date = datetime.date.today()
         )
         db.session.add(todo_item)
         db.session.commit()
